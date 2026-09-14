@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 {% block conteudo %}
-    <form action="{{ url_for('tarefas.criar_tarefa') }}" method="POST">
-        <label for="descricao">Descrição da tarefa</label>
-        <input type="text" id="descricao" name="descricao" placeholder="Ex: estudar para prova" required>
+    <section class="card">
+        <h2 class="card__titulo">Nova tarefa</h2>
+        <form action="{{ url_for('tarefas.criar_tarefa') }}" method="POST" class="formulario">
+            <div class="formulario__grupo">
+                <label for="descricao" class="formulario__label">Descrição da tarefa</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Ex: estudar para prova" class="formulario__input" required>
+            </div>
 
-        <button type="submit" class="botao botao--primario">Adicionar tarefa</button>
-        <a href="{{ url_for('tarefas.lista') }}" class="botao botao--secundario">Voltar para a lista</a>
+            <div class="formulario_acoes">
+                <button type="submit" class="botao botao--primario">Adicionar tarefa</button>
+                <a href="{{ url_for('tarefas.index') }}" class="botao botao--secundario">Voltar para a lista</a>
+            </div>
+    </section>
     </form>
 {% endblock %}

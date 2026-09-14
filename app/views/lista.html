@@ -1,17 +1,23 @@
 {% extends "base.html" %}
     {% block conteudo %}
-        <ul>
-            {% for tarefa in tarefas %}
-                <li>
-                    <span>{{ tarefa.descricao }}</span>
-                    {% if tarefa.estado %}
-                        <span>Concluido</span>
-                    {% else %}
-                        <span>Pendente</span>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+        <section class="card">
+            <div>
+                <h2>Minhas Tarefas</h2>
+                <a href="{{url_for('tarefas.criar_tarefas')}}" class="botao botao--primario">Nova Tarefa</a>
+            </div>
 
-        <button class="botao-tema">Criar nova tarefa</button>
+            <ul class="lista-tarefas">
+                {% for tarefa in tarefas %}
+                    <li class="tarefa-item">
+                        <span class="tarefa-item__texto">{{ tarefa.descricao }}</span>
+                        {% if tarefa.estado %}
+                            <span class="tarefa-item__status tarefa-item__status--concluida">Concluido</span>
+                        {% else %}
+                            <span class="tarefa-item__status tarefa-item__status--pendente">Pendente</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            <button class="botao-tema">Criar nova tarefa</button>
+        </section>
     {% endblock %}

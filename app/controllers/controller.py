@@ -15,20 +15,23 @@ def index():
 
     return render_template("base.html", tarefas=lista_objetos)
 
-@tarefasbp.route('/criar-tarefa', methods=['POST'])
+@tarefasbp.route('/criar-tarefa', methods=['GET', 'POST'])
 def criar_tarefa():
-    descricao = request.form.get("descricao")
+    if request.method == 'POST':
+        descricao = request.form.get("descricao")
 
-    if descricao:
-        #Pegar a lista de tarefas criada na sessao
-        tarefas = session.get("tarefas", [])
-        #len serve para retornar o número de itens de uma lista
-        novo_id = len(tarefas) + 1
-        nova_tarefa = Tarefa(novo_id, descricao)
+        if descricao:
+            #Pegar a lista de tarefas criada na sessao
+            tarefas = session.get("tarefas", [])
+            #len serve para retornar o número de itens de uma lista
+            novo_id = len(tarefas) + 1
+            nova_tarefa = Tarefa(novo_id, descricao)
 
-        #guardando a tarefa na sessao
-        tarefas.append(nova_tarefa.para_dict())
-        session["tarefas"] = tarefas
+            #guardando a tarefa na sessao
+            tarefas.append(nova_tarefa.para_dict())
+            session["tarefas"] = tarefas
 
-    return redirect(url_for("tarefas.index"))
+        return redirect(url_for("tarefas.index"))
+
+    return render_template('criar.html')
 
