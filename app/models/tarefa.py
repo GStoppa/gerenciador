@@ -1,6 +1,6 @@
 #Tarefa (cls)
 class Tarefa:
-    def __init__(self, id_tarefa, descricao, estado):
+    def __init__(self, id_tarefa, descricao, estado = False):
         self.id_tarefa = id_tarefa
         self.descricao = descricao
         self.estado = estado
