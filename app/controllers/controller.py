@@ -1,13 +1,32 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, session, request, url_for
 from app.models.tarefa import Tarefa
 
 #Inicializao do Blueprint
-tarefasbp = Blueprint('tarefas', __name__)
+tarefasbp = Blueprint("tarefas", __name__)
 
 @tarefasbp.route('/')
 def index():
-    lista_tarefas = [
-        Tarefa(1, "Estudar Flask"),
-        Tarefa(2, "Praticar MVC", estado=True),
-    ]
-    return render_template("index.html", tarefas=lista_tarefas)
+    dados_sessao = session.get("tarefas", [])
+    #traformar o dicionario em objetos
+    lista_objetos = []
+    for item in dados_sessao:
+        objeto = Tarefa.from_dict(item)
+        lista_objetos.append(objeto)
+
+    return render_template("index.html", tarefas=lista_objetos)
+
+@tarefasbp.route('/criar-tarefa', methods=['POST'])
+def criar_tarefa():
+    descricao = request.form.get("descricao")
+
+    if descricao:
+        tarefas = session.get("tarefas", [])
+        #len serve para retornar o número de itens de uma lista
+        novo_id = len(tarefas) + 1
+        nova_tarefa = Tarefa(novo_id, descricao)
+
+        tarefas.append(nova_tarefa.para_dict())
+        session["tarefas"] = tarefas
+
+    return redirect(url_for("tarefas.index"))
+
